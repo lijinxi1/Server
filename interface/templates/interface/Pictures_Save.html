@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a>选择上传的图片</a>
+<form action="./" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    学号：<input type="text" name="userid"><br>
+    班级：<input type="text" name="class"><br>
+    图片:<input type="file" name="photo" multiple><br>
+    <input type="submit">
+</form>
+</body>
+</html>

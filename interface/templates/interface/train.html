@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style type="text/css">
+        #header {
+    background-color:#0f6674;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+        table {
+     border-collapse: collapse;
+     margin: auto;
+     text-align: center;
+     width: 100%;
+     font-family: Futura, Arial, sans-serif;
+}
+caption {
+     font-size: larger;
+    background-color: #0f6674;
+     margin: 1em auto;
+}
+th,td {
+     padding: .65em;
+}
+th {
+     background: #fff nonerepeat scroll 0 0;
+   border: 1px solid #777;
+   color: #000;
+}
+td {
+     border: 1px solid#777;
+}
+tbody tr:nth-child(odd) {
+     background: #ccc;
+}
+        button {
+  background: #2e466e;
+  background-image: -webkit-linear-gradient(top, #2e466e, #415989);
+  background-image: -moz-linear-gradient(top, #2e466e, #415989);
+  background-image: -ms-linear-gradient(top, #2e466e, #415989);
+  background-image: -o-linear-gradient(top, #2e466e, #415989);
+  background-image: linear-gradient(to bottom, #2e466e, #415989);
+  -webkit-border-radius: 17;
+  -moz-border-radius: 17;
+  border-radius: 17px;
+  text-shadow: 0px 1px 0px #263666;
+  -webkit-box-shadow: inset 0px 0px 15px 3px #23395e;
+  -moz-box-shadow: inset 0px 0px 15px 3px #23395e;
+  box-shadow: inset 0px 0px 15px 3px #23395e;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 8px 30px 8px 30px;
+  border: solid #1f2f47 1px;
+  text-decoration: none;
+}
+
+        button:hover {
+  color: #ffffff;
+  background: #415989;
+  text-decoration: none;
+}
+    </style>
+<script type="text/javascript">
+    function button_onclick() {
+        alert("正在生成第1个学生模型...");
+    }
+</script>
+</head>
+<body bgcolor="#f5f5dc">
+<div id="header">
+<h1>签到系统人脸模型生成系统</h1>
+</div>
+<form role="search" method="get" id="searchform" action="">
+      {% csrf_token %}
+      <input type="search" name="q" placeholder="输入需要生成模型的班级" required>
+      <button type="submit">搜索</button>
+</form>
+	<table>
+		<thead>
+			<tr>
+				<th>学号
+				<th>姓名
+				<th>班级
+		</thead>
+		<tbody id="info">
+        {% for p in post_list %}
+			<tr>
+				<td>{{p.stu_id}}
+				<td>{{p.stu_name}}
+                <td>{{p.stu_class}}
+        {% endfor %}
+		</tbody>
+	</table>
+{{ lack_stu }}
+<form  method="get"  action="">
+      {% csrf_token %}
+      <input type="hidden" name="train" value="start_train">
+      <button name="train" type="submit" style="display: block;margin: 0 auto">开始训练</button>
+</form>
+</body>
+</html>
