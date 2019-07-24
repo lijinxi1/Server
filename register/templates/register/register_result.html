@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册结果</title>
+    <style type="text/css">
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 40%;
+            text-align: center;
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        #customers td, #customers th {
+            font-size: 15px;
+            border: 1px solid #98bf21;
+            padding: 3px 7px 2px 7px;
+        }
+
+        #customers th {
+            font-size: 1.1em;
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #A7C942;
+            color: #ffffff;
+        }
+
+        #customers tr.alt td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+
+        caption {
+            color: red;
+            font-size: 15px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        body {
+            background: url('../../static/img/bg.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #CCCCCC;
+        }
+    </style>
+</head>
+<body style="">
+<div>
+    <table id="customers">
+        <caption>记录信息如下</caption>
+        <tr class="alt">
+            <td>学号/工号:</td>
+            <td>{{ st_id }}</td>
+        </tr>
+        <tr>
+            <td>姓名:</td>
+            <td>{{ name }}</td>
+        </tr>
+        <tr class="alt">
+            <td>班级/办公室:</td>
+            <td>{{ class_office }}</td>
+        </tr>
+        <tr>
+            <td>邮箱:</td>
+            <td>{{ email }}</td>
+        </tr>
+        <tr class="alt">
+            <td>手机号:</td>
+            <td>{{ phone }}</td>
+        </tr>
+        <tr>
+            <td>地址:</td>
+            <td>{{ addr }}</td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    var time = 10;
+
+    function returnUrlByTime() {
+        window.setTimeout('returnUrlByTime()', 1000);
+        time = time - 1;
+        if (time <= 0) {
+            time = 0;
+            window.setTimeout("location.href='/';", 0);
+        }
+        document.getElementById("layer").innerHTML = time;
+    }
+</script>
+<body onload="returnUrlByTime()">
+<div>
+    <br><br>
+    <center>
+        <a href="javascript:void(0)" onclick="window.location.href='/'">
+            <font size="3px" style="text-align: center">{{ text }}&nbsp;&nbsp;<b><span id="layer">10</span></b>秒后会自动跳转.</font>
+        </a>
+    </center>
+</div>
+</body>
+</body>
+</html>

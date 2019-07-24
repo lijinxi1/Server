@@ -2,96 +2,108 @@
 <html>
 
 <head>
-<meta charset="UTF-8">
-<title>注册</title>
-<link type="text/css" href="../../static/css/style.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link type="text/css" href="../../static/css/style.css" rel="stylesheet"/>
 
 </head>
 
 <!-- 登录 -->
 <div class="register">
-	<form id="ajaxForm" class="login-wrap">
-		<img class="avatar" src="../../static/img/4.jpg">
-		<ul>
-			<li>
-				<label for="">学号:</label>
-				<input type="text" name="username" class="stu_id">
-			</li>
-			<li>
-				<label for="">姓名:</label>
-				<input type="text" name="phone" class="name">
-			</li>
+    <form id="ajaxForm" class="login-wrap" action="/register_result/" method="post">
+        <img class="avatar" src="../../static/img/4.jpg">
+        <ul>
             <li>
-				<label for="">班级 :</label>
-				<select name="class" style="width: 320px">
-                  <option value ="计算机1601" >计算机1601</option>
-                  <option value ="计算机1602" >计算机1602</option>
-                  <option value="计算机1603" >计算机1603</option>
-                  <option value="通信1601" >通信1601</option>
-                    <option value="通信1602">通信1602</option>
-                    <option value="通信1603">通信1602</option>
+                <label for="">您的身份:</label>
+                <select name="identity" style="width: 320px;">
+                    <option value="student">学生</option>
+                    <option value="teacher">老师</option>
                 </select>
-			</li>
-			<li>
-				<label for=""></label>
-				<input type="button" class="submit " value="注册/更新信息">
-			</li>
-		</ul>
-	</form>
+            </li>
+            <li>
+                <label for="">学号/工号:</label>
+                <input type="text" name="_id" class="_id">
+            </li>
+
+            <li>
+                <label for="">姓名:</label>
+                <input type="text" name="name" class="name">
+            </li>
+            <li>
+                <label for="">班级/办公室:</label>
+                <input type="text" name="class_office" class="'class_email">
+            </li>
+            <li>
+                <label for="">邮箱:</label>
+                <input type="email" name="email" class="email">
+            </li>
+            <li>
+                <label for="">手机号:</label>
+                <input type="tel" name="phone" class="phone">
+            </li>
+            <li>
+                <label for="">地址:</label>
+                <input type="text" name="address" class="address" value="请填写详细地址">
+            </li>
+            <li>
+                <label for=""></label>
+                <input type="submit" class="submit " value="注册/更新信息" onclick="alert('确认提交/不再修改!')">
+            </li>
+        </ul>
+            {% csrf_token %}
+    </form>
 </div>
 
 <!--代码雨区域-->
 <canvas id="canvas" style="background:#000"></canvas>
 <script>
-// 代码雨
-window.onload = function () {
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+    // 代码雨
+    window.onload = function () {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
 // 浏览器宽高
-var W = window.screen.availWidth;
-var H = window.screen.availHeight;
-canvas.width = W;
-canvas.height = H;
-var fontSize = 18;
-var colunms = Math.floor(W / fontSize);
+        var W = window.screen.availWidth;
+        var H = window.screen.availHeight;
+        canvas.width = W;
+        canvas.height = H;
+        var fontSize = 18;
+        var colunms = Math.floor(W / fontSize);
 // 坐标
-var coordinate = [];
-for (var i = 0; i < colunms; i++) {
-coordinate.push(0);
-}
-var str = "javascript html5 canvas";
-function draw() {
+        var coordinate = [];
+        for (var i = 0; i < colunms; i++) {
+            coordinate.push(0);
+        }
+        var str = "javascript html5 canvas";
+
+        function draw() {
 // 背景色
-context.fillStyle = "rgba(0,0,0,0.05)";
-context.fillRect(0, 0, W, H);
-context.font = "800 " + fontSize + "px  宋体";
+            context.fillStyle = "rgba(0,0,0,0.05)";
+            context.fillRect(0, 0, W, H);
+            context.font = "800 " + fontSize + "px  宋体";
 // 字体颜色
-context.fillStyle = "#01fef5";
-for (var i = 0; i < colunms; i++) {
-	var index = Math.floor(Math.random() * str.length);
-	var x = i * fontSize;
-	var y = coordinate[i] * fontSize;
-	context.fillText(str[index], x, y);
-	if (y >= canvas.height && Math.random() > 0.88) {
-		coordinate[i] = 0;
-	}
-	coordinate[i]++;
-}
-}
+            context.fillStyle = "#01fef5";
+            for (var i = 0; i < colunms; i++) {
+                var index = Math.floor(Math.random() * str.length);
+                var x = i * fontSize;
+                var y = coordinate[i] * fontSize;
+                context.fillText(str[index], x, y);
+                if (y >= canvas.height && Math.random() > 0.88) {
+                    coordinate[i] = 0;
+                }
+                coordinate[i]++;
+            }
+        }
 
-function randColor() {
-var r = Math.floor(Math.random() * 256);
-var g = Math.floor(Math.random() * 256);
-var b = Math.floor(Math.random() * 256);
-return "rgb(" + r + "," + g + "," + b + ")";
-}
+        function randColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
 
-draw();
-setInterval(draw, 30);
-};
+        draw();
+        setInterval(draw, 100);
+    };
 </script>
-
-
-</body>
 
 </html>
