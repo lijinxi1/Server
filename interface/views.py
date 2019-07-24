@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from .models import Student
-from FaceDetect.Process import FaceProcess
+from ImageProcess.Process import FaceProcess
 import os
 
 

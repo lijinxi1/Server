@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'register.apps.RegisterConfig',
+    'Suit.apps.SuitConfig',
+    'index.apps.IndexConfig',
+    'django_select2',
     'interface.apps.InterfaceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
