@@ -24,7 +24,12 @@ def qrgenerate(request):
     context = {}
     context['caption'] = '签到二维码生成系统'
     context['post_list'] = post_list
-    qrcode_genearte(course)
+    c=Course.objects.get(course=course)
+    teacher_name=c.teacher_info.teacher_name
+    classroom=c.classroom
+    context['teacher_name']=teacher_name
+    context['classroom']=classroom
+    qrcode_genearte(teacher_name,course,classroom)
     img='../../static/img/'+course+'.png'
     context={}
     context['course2']=course
