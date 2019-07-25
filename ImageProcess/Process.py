@@ -6,14 +6,16 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import cv2
 import shutil
+from .video import video_set
 
 
 class FaceProcess(object):
     """
     为每个学生训练单独的模型
     """
-    data_folder = '../DataSet/PICS'
-    model_folder = '../DataSet/MODELS'
+    # 路径必须这样写
+    data_folder = './DataSet/PICS'
+    model_folder = './DataSet/MODELS'
 
     face_cascade = None
 
@@ -56,17 +58,33 @@ class FaceProcess(object):
         """
         faces = []
         labels = []
-        for stu_img in os.listdir(self.data_folder):
-            # 中文路径
-            img = cv2.imdecode(np.fromfile(os.path.join(self.data_folder, stu_img), dtype=np.uint8), cv2.IMREAD_COLOR)
-            face, img = self.detect_face(img)
-            if face:
-                img = cv2.resize(img, (200, 200))
-                # cv2.imwrite('save.jpg',img)
-                img = np.array(img, 'uint8')
-                faces.append(img)
-                labels.append(int(self.stu_id))
-            os.remove(os.path.join(self.data_folder, stu_img))
+        # 判断是否为视频
+        if len(os.listdir(self.data_folder))==1:
+            for stu_video in os.listdir(self.data_folder):
+                frames=video_set(os.path.join(self.data_folder, stu_video))
+                os.remove(os.path.join(self.data_folder, stu_video))
+                break
+            for frame in frames:
+                face, gray = self.detect_face(frame)
+                if face:
+                    gray = cv2.resize(gray, (200, 200))
+                    # cv2.imwrite('save.jpg',img)
+                    gray = np.array(gray, 'uint8')
+                    faces.append(gray)
+                    labels.append(int(self.stu_id))
+        else:
+            for stu_img in os.listdir(self.data_folder):
+                # 中文路径
+                img = cv2.imdecode(np.fromfile(os.path.join(self.data_folder, stu_img), dtype=np.uint8), cv2.IMREAD_COLOR)
+                face, gray = self.detect_face(img)
+                if face:
+                    gray = cv2.resize(gray, (200, 200))
+                    # cv2.imwrite('save.jpg',img)
+                    gray = np.array(gray, 'uint8')
+                    faces.append(gray)
+                    labels.append(int(self.stu_id))
+                os.remove(os.path.join(self.data_folder, stu_img))
+        print(faces,labels)
         return faces, labels
 
     def train(self):
@@ -78,7 +96,7 @@ class FaceProcess(object):
         faces, labels = self.prepare_train_data()
         face_recognizer.train(faces, np.array(labels))
         if os.path.exists(os.path.join(self.model_folder, self.stu_id + '.yml')):
-            os.remove(self.model_folder)
+            os.remove(os.path.join(self.model_folder,self.stu_id+'.yml'))
         if not os.path.exists(self.model_folder):
             os.makedirs(self.model_folder)
         face_recognizer.save(self.stu_id + '.yml')  # 当前路径下生成
@@ -91,47 +109,53 @@ class FaceProcess(object):
         :return:
         """
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = cv2.equalizeHist(gray)
-        self.face_cascade = cv2.CascadeClassifier('./haarcascades/haarcascade_frontalface_default.xml')
-        faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5, minSize=(90, 90))
+        # gray = cv2.equalizeHist(gray)
+        # 路径必须这样写
+        self.face_cascade = cv2.CascadeClassifier('./ImageProcess/haarcascades/haarcascade_frontalface_default.xml')
+        faces = self.face_cascade.detectMultiScale(gray,scaleFactor=1.3, minNeighbors=5, minSize=(90, 90))
         if len(faces) == 0:
             return None, None
         if len(faces) > 1:
-            return None
+            return None,None
         (x, y, w, h) = faces[0]
-        return (x, y, w, h), gray[y - 10:y + h + 10, x - 10:x + w + 10]
+        return (x, y, w, h), gray[y :y + h , x :x + w]
 
-    def face_recognition(self, img_file):
+    def face_recognition(self):
         """
         人脸识别,输出相应信息
-        :param img_file:
         :return:
         """
-        img = cv2.imread(img_file)
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         shutil.move(os.path.join(self.model_folder, self.stu_id + '.yml'), self.stu_id + '.yml')
         recognizer.read(self.stu_id + '.yml')
-        shutil.move(self.stu_id + '.yml', os.path.join(self.model_folder, self.stu_id + '.yml'), )  # 删除
-        face, gray = self.detect_face(img)
-        if face:
-            gray = cv2.resize(gray, (200, 200))
-            (x, y, w, h) = face
-            cv2.rectangle(gray, (x, y), (x + w, y + h), (232, 138, 30), 1)
-            gray = np.array(gray, 'uint8')
-            face_id, confidence = recognizer.predict(gray)
-            if confidence < 50:
-                print("unknown")
-            else:
-                img = self.change_cv2_draw(img, 'stu_id:' + str(face_id), (x + w + 5, y), 20, (0, 0, 255))
-            cv2.namedWindow('hello')
-            cv2.imshow('hello', img)
-            cv2.imwrite('result.jpg', img)
-            cv2.waitKey(0)
+        shutil.move(self.stu_id + '.yml', os.path.join(self.model_folder, self.stu_id + '.yml'), )  # 放回去
+        for stu_img in os.listdir(self.data_folder):
+            # 中文路径
+            print(os.path.join(self.data_folder, stu_img))
+            img = cv2.imdecode(np.fromfile(os.path.join(self.data_folder, stu_img), dtype=np.uint8), cv2.IMREAD_COLOR)
+            os.remove(os.path.join(self.data_folder,stu_img))
+            face, gray = self.detect_face(img)
+            if face:
+                recognized=None
+                gray = cv2.resize(gray, (200, 200))
+                (x, y, w, h) = face
+                cv2.rectangle(img, (x, y), (x + w, y + h), (232, 138, 30), 1)
+                gray = np.array(gray, 'uint8')
+                face_id, confidence = recognizer.predict(gray)
+                if confidence < 30:
+                    recognized=False
+                else:
+                    img = self.change_cv2_draw(img, 'stu_id:' + str(face_id), (x + w + 5, y), 20, (0, 0, 255))
+                    recognized=True
+                cv2.imwrite('result.jpg', img)
+                return recognized
 
 
 if __name__ == '__main__':
     # fp=FaceProcess('通信1602','20164767')
     # fp.train()
-    fp = FaceProcess('计算机1601', '20164767')
+    #fp = FaceProcess('计算机1601', '20164767')
     # fp.train()
-    fp.face_recognition('test.jpg')
+    fp=FaceProcess('通信1603','20164797')
+    fp.train()
+    #fp.face_recognition()

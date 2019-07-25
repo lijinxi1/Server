@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from django.conf import settings
 from .models import Student
-from ImageProcess.Process import FaceProcess
 import os
 
 
@@ -16,29 +14,7 @@ def index(request):
     return render(request, 'interface/qrcode.html', context=context)
 
 
-def pictures_save(request):
-    obj = dict();
-    if request.method == 'POST':
-        student_id = str(request.POST.get('userid'))
-        student_class = str(request.POST.get('class'))
-        files = request.FILES.getlist('photo')
-        dir = '/'+student_class+'/'+student_id
-        if not files:
-            obj['error'] = '没有图片上传'
-        else:
-            dirs = settings.MEDIA_ROOT+dir
-            folder = os.path.exists(dirs)
-            if not folder:
-                os.makedirs(dirs)
-            try:
-                for file in files:
-                    img_name = file.name
-                    test = file.file.read()
-                    with open(f'{dirs}'+'\\'+img_name, 'wb') as f:
-                        f.write(test)
-            except Exception as e:
-                obj['error'] = e
-    return render(request, 'interface/Pictures_Save.html')
+
 
 
 def train(request):

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'upload.apps.UploadConfig',
     'register.apps.RegisterConfig',
     'Suit.apps.SuitConfig',
     'index.apps.IndexConfig',

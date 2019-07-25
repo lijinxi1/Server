@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>注册结果</title>
+    <title>上传注册图片结果</title>
     <style type="text/css">
         #customers {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -59,36 +59,24 @@
     <table id="customers">
         <caption>记录信息如下</caption>
         <tr class="alt">
-            <td>学号/工号:</td>
-            <td>{{ st_id }}</td>
+            <td>学号:</td>
+            <td>{{ stu_id }}</td>
         </tr>
         <tr>
             <td>姓名:</td>
             <td>{{ name }}</td>
         </tr>
         <tr class="alt">
-            <td>班级/办公室:</td>
-            <td>{{ class_office }}</td>
-        </tr>
-        <tr>
-            <td>邮箱:</td>
-            <td>{{ email }}</td>
-        </tr>
-        <tr class="alt">
-            <td>手机号:</td>
-            <td>{{ phone }}</td>
-        </tr>
-        <tr>
-            <td>地址:</td>
-            <td>{{ addr }}</td>
+            <td>班级</td>
+            <td>{{ class }}</td>
         </tr>
     </table>
 </div>
 <br><br><br>
-<center><a href="/upload/" style="font-size: 20px;color: blueviolet"><b>现在去上传注册图片&nbsp;&nbsp;点击开始</b></a></center>
+<div><center><font size="5px" color="red"><b> {{ trained }}</b></font></center></div>
 <br><br><br>
 <script type="text/javascript">
-    var time = 30;
+    var time = 10;
 
     function returnUrlByTime() {
         window.setTimeout('returnUrlByTime()', 1000);
@@ -104,9 +92,16 @@
 <div>
     <br><br>
     <center>
+        {% if name%}
         <a href="javascript:void(0)" onclick="window.location.href='/'">
-            <b>  <font size="3px" style="text-align: center">{{ text }}&nbsp;&nbsp;<b><span id="layer">10</span></b>秒后会自动跳转到首页面.</font></b>
+            <b><<font size="3px" style="text-align: center">{{ text }}&nbsp;&nbsp;<b><span id="layer">10</span></b>秒后会自动跳转到首页面.</font></b>
         </a>
+        {% endif %}
+    {% if not name %}
+          <a href="javascript:void(0)" onclick="window.location.href='/register/'">
+              <b><font size="3px" style="text-align: center">{{ text }}&nbsp;&nbsp;<b><span id="layer">10</span></b>秒&nbsp;&nbsp;点击到注册页面.</font></b>
+        </a>
+    {% endif %}
     </center>
 </div>
 </body>
