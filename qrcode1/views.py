@@ -20,11 +20,16 @@ def qrmanage(request):
 
 def qrgenerate(request):
     course=request.POST.get('course')
+    post_list = Course.objects.filter(course=course)
+    context = {}
+    context['caption'] = '签到二维码生成系统'
+    context['post_list'] = post_list
     qrcode_genearte(course)
     img='../../static/img/'+course+'.png'
     context={}
+    context['course2']=course
     context['course']=course
     context['img']=img
 
-    return render(request,'qrcode1/qrcode.html',context=context)
+    return render(request,'qrcode1/qrmanage.html',context=context)
 
