@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.exceptions import *
 # Create your views here.
+from facedata.models import StudentFaceData,TeacherFaceData
 from .models import Teacher,Student
 def register(requests):
     return render(requests,'register/register.html')

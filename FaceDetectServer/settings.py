@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'facedata.apps.FacedataConfig',
+    'qrcode1.apps.Qrcode1Config',
     'upload.apps.UploadConfig',
     'register.apps.RegisterConfig',
     'Suit.apps.SuitConfig',
@@ -60,8 +62,7 @@ ROOT_URLCONF = 'FaceDetectServer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

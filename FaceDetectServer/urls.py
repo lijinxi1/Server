@@ -21,5 +21,6 @@ urlpatterns = [
     path('',include('interface.urls')),
     path('',include('index.urls')),
     path('',include('register.urls')),
-    path('', include('upload.urls'))
+    path('', include('upload.urls')),
+    path('',include('qrcode1.urls'))
 ]

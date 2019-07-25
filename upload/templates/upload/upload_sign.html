@@ -70,6 +70,18 @@
             <td>班级</td>
             <td>{{ class }}</td>
         </tr>
+         <tr class="">
+            <td>课程</td>
+            <td>{{ course }}</td>
+        </tr>
+         <tr class="alt">
+            <td>教师:</td>
+            <td>{{ teacher_name }}</td>
+        </tr>
+         <tr class="alt">
+            <td>教室:</td>
+            <td>{{ classroom }}</td>
+        </tr>
     </table>
 </div>
 <div><center><font size="5px" color="red"><b> {{ recognized_result}}</b></font></center></div>
@@ -88,7 +100,7 @@
 </script>
 <body onload="returnUrlByTime()">
 <div>
-    <br><br>
+    <br>{{ text2 }}<br>
     <center>
         {% if name%}
         <a href="javascript:void(0)" onclick="window.location.href='/'">

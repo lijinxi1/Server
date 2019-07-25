@@ -25,7 +25,7 @@ th,td {
      padding: .65em;
 }
 th {
-     background: #fff nonerepeat scroll 0 0;
+     background: #fff000;
    border: 1px solid #777;
    color: #000;
 }
@@ -42,8 +42,8 @@ tbody tr:nth-child(odd) {
   background-image: -ms-linear-gradient(top, #2e466e, #415989);
   background-image: -o-linear-gradient(top, #2e466e, #415989);
   background-image: linear-gradient(to bottom, #2e466e, #415989);
-  -webkit-border-radius: 17;
-  -moz-border-radius: 17;
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
   border-radius: 17px;
   text-shadow: 0px 1px 0px #263666;
   -webkit-box-shadow: inset 0px 0px 15px 3px #23395e;
@@ -65,40 +65,48 @@ tbody tr:nth-child(odd) {
     </style>
 <script type="text/javascript">
     function button_onclick() {
-        alert("正在生成第1个学生模型...");
+        alert("生成签到课程二维码...");
     }
 </script>
 </head>
 <body bgcolor="#f5f5dc">
 <div id="header">
-<h1>签到系统人脸模型生成系统</h1>
+<h1>签到二维码生成系统</h1>
 </div>
-<form role="search" method="get" id="searchform" action="">
+<form role="search" method="post" id="searchform" action="/qrmanage/">
       {% csrf_token %}
-      <input type="search" name="q" placeholder="输入需要生成模型的班级" required>
+      <input type="search" name="course" placeholder="签到课程" required style="height: 30px" value="微波天线">
       <button type="submit">搜索</button>
-</form>
 	<table>
 		<thead>
 			<tr>
-				<th>学号
-				<th>姓名
-				<th>班级
+                <th>学生姓名</th>
+                <th>签到时间</th>
+                <th>签到状态</th>
+                <th>课程名</th>
+                <th>教师</th>
+                <th>教室</th>
+            </tr>
 		</thead>
 		<tbody id="info">
         {% for p in post_list %}
 			<tr>
-				<td>{{p.stu_id}}
-				<td>{{p.stu_name}}
-                <td>{{p.stu_class}}
+            <td>{{p.stu_info}}</td>
+            <td>{{p.stu_sign_time}}</td>
+            <td>{{p.stu_sign_status}}</td>
+            <td>{{ p.course }}</td>
+            <td>{{ p.teacher_info }}</td>
+            <td>{{ p.classroom }}</td>
+            </tr>
         {% endfor %}
 		</tbody>
 	</table>
-{{ lack_stu }}
-<form  method="get"  action="">
+</form>
+<form action="/qrgenerate/" method="post">
+    <input type="hidden" value="{{ course }}" name="course">
       {% csrf_token %}
       <input type="hidden" name="train" value="start_train">
-      <button name="train" type="submit" style="display: block;margin: 0 auto">开始训练</button>
+      <button name="qrgenearte" type="submit" style="display: block;margin: 0 auto" >生成二维码</button>
 </form>
 </body>
 </html>

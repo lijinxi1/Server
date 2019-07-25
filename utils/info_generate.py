@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 # @author : Dell
 # @time : 20:14   2019/7/14
-# @filename : InfoGenerate.py
+# @filename : info_generate.py
 import random
 from interface.models import *
 
