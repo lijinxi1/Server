@@ -11,7 +11,7 @@ import qrcode
 
 def qrcode_genearte(teacher_name,course,classroom):
     qr = qrcode.QRCode(
-        version=10,
+        version=6,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
