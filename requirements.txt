@@ -1,4 +1,4 @@
-Django==2.2.8
+Django==2.2.13
 django-select2==7.1.0
 django-suit==2.0a1
 numpy==1.16.4
